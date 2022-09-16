@@ -6,7 +6,6 @@ const CoachHome = () => {
   const win = window.sessionStorage;
   const [coachSchedules, setcoachSchedules] = useState([]);
 
-
   useEffect(() => {
     axios
       .get("http://localhost:4000/bookings?coachId=" + win.getItem("coachID"))
@@ -23,12 +22,12 @@ const CoachHome = () => {
       <CoachNavbar />
       <ul>
         {coachSchedules.map((data) => (
-            <li>
-                Appointment Date: {data.appointmentDate }
-                Slot:{data.slot }
-                Booking id:{data.id}
-                User id:{data.userId}
-            </li>
+          <li>
+            Appointment Date: {data.appointmentDate}
+            Slot:{data.slot}
+            Booking id:{data.id}
+            User id:{data.userId}
+          </li>
         ))}
       </ul>
     </>

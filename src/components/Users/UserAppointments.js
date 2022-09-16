@@ -13,6 +13,7 @@ const UserAppointment = () => {
   const [BookId, setNewBookId] = useState();
   const [coachId, setNewCoachId] = useState();
   const [msg, setMsg] = useState("");
+  const [reDate,setReDate]=useState("")
 
   useEffect(() => {
     axios
@@ -34,21 +35,19 @@ const UserAppointment = () => {
   }
 
   function cancelAppointmet() {
-   if (window.confirm("Are you Sure you need to cancel")) {
+    if (window.confirm("Are you Sure you need to cancel")) {
       axios
         .delete("http://localhost:4000/bookings/" + this)
         .then((response) => {
           setMsg("Deleted Succesfully");
           setPageState(0);
-          
         })
         .catch((err) => {
           console.log("BookId ", this);
           setPageState(0);
         });
-    }
-    else{
-        setPageState(0);
+    } else {
+      setPageState(0);
     }
   }
 
@@ -70,6 +69,19 @@ const UserAppointment = () => {
       coachId: coachId,
     };
     console.log(newObj);
+    let d=newObj.appointmentDate.split('-');
+    let date1 = new Date(+d[0], +d[1] - 1, +d[2]);
+    let date2 = new Date();
+    let diffTime = (date1 - date2);
+    let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+    if(diffDays<0 || diffDays>7){
+        setReDate("Date should be withhin 7 days");
+        return ;
+    }
+    else{
+      setReDate("");
+    }
+
     axios
       .put("http://localhost:4000/bookings/" + newObj.id, newObj)
       .then((res) => {
@@ -90,6 +102,7 @@ const UserAppointment = () => {
   return (
     <>
       <UserNavbar />
+      {reDate}
       {pageState === 0 &&
         appointment.map((data) => (
           <div>

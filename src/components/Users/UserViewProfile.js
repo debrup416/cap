@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import UserNavbar from "./UserNavbar"
+import UserNavbar from "./UserNavbar";
 
 const UserViewProfile = () => {
   const win = window.sessionStorage;
@@ -21,18 +21,20 @@ const UserViewProfile = () => {
 
   return (
     <>
-       <UserNavbar/>
-        <ul>
-            {userID}
-            {userData.map((data) => (
-            <div>
-                <h3>{data.name}</h3>
-                <h4>Date of Birth: {data.dateOfBirth}</h4>
-                <h4>Mobile No:{data.mobileNumber}</h4>
-                <h4>Address:{data.city},{data.state}</h4>
-                <h4>{data.country}</h4>
-                <h4>{data.pincode}</h4>
-            </div>
+      <UserNavbar />
+      <ul>
+        {userID}
+        {userData.map((data) => (
+          <div>
+            <h3>{data.name}</h3>
+            <h4>Date of Birth: {data.dateOfBirth}</h4>
+            <h4>Mobile No:{data.mobileNumber}</h4>
+            <h4>
+              Address:{data.city},{data.state}
+            </h4>
+            <h4>{data.country}</h4>
+            <h4>{data.pincode}</h4>
+          </div>
         ))}
       </ul>
     </>

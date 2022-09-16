@@ -3,18 +3,16 @@ import { useState, useEffect } from "react";
 import UserNavbar from "./UserNavbar";
 
 function formatDate() {
-    var d = new Date(),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
-  
-    if (month.length < 2) 
-        month = '0' + month;
-    if (day.length < 2) 
-        day = '0' + day;
-  
-    return [year, month, day].join('-');
-  }
+  var d = new Date(),
+    month = "" + (d.getMonth() + 1),
+    day = "" + d.getDate(),
+    year = d.getFullYear();
+
+  if (month.length < 2) month = "0" + month;
+  if (day.length < 2) day = "0" + day;
+
+  return [year, month, day].join("-");
+}
 
 const UserHome = () => {
   const win = window.sessionStorage;
@@ -24,8 +22,8 @@ const UserHome = () => {
   const [slot, setSlot] = useState("");
   const [coachId, setCoachId] = useState(0);
   const [successMsg, setSuccessMsg] = useState("");
-  const [errorDate,setErrorDate]=useState("");
-  const [errorSlot,setErrorSlot]=useState("")
+  const [errorDate, setErrorDate] = useState("");
+  const [errorSlot, setErrorSlot] = useState("");
 
   useEffect(() => {
     axios
@@ -54,10 +52,27 @@ const UserHome = () => {
       userId: win.getItem("UserID"),
       coachId: coachId,
     };
+   
+    let d=obj.appointmentDate.split('-');
+    let date1 = new Date(+d[0], +d[1] - 1, +d[2]);
+    let date2 = new Date();
+    let diffTime = (date1 - date2);
+    let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+    if(diffDays<0 || diffDays>7){
+      setErrorDate("Appoints date should be upcoming 7 days")
+      return;
+    }else{
+      setErrorDate("")
+    }
     
-    
-     
- 
+    if(obj.slot===""){
+      setErrorSlot("Chose a slot");
+      return ;
+    }
+    else{
+      setErrorDate("");
+    }
+
     axios
       .post("http://localhost:4000/bookings", obj)
       .then((res) => {
@@ -80,6 +95,8 @@ const UserHome = () => {
 
   return (
     <>
+    {errorDate}
+    {errorSlot}
       <UserNavbar />
       {isBooking === 0 && (
         <ul>
@@ -102,7 +119,12 @@ const UserHome = () => {
           <h2>Procces with your appointment</h2>
           <form onSubmit={bookAppointment}>
             <label>Date of appointment</label>
-            <input type="Date" value={appointmentDate} onChange={updateDate} required/>
+            <input
+              type="Date"
+              value={appointmentDate}
+              onChange={updateDate}
+              required
+            />
             <label>Preference Slot</label>
             <input
               type="radio"

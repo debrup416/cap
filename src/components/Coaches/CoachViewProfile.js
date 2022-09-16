@@ -2,10 +2,10 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import CoachNavbar from "./CoachNavbar";
 
+
 const CoachHome = () => {
   const win = window.sessionStorage;
   const [coachData, setCoachData] = useState([]);
- 
 
   useEffect(() => {
     axios
@@ -19,21 +19,24 @@ const CoachHome = () => {
   }, []);
 
   return (
-    <>
+    <div >
       <CoachNavbar />
-      {win.getItem("coachID")}
+      <div >
       <ul>
-      {coachData.map((data) => (
-            <li>
-                Coach Id:{data.id},
-                Date of Birth:{data.dateOfBirth},
-                Mobile No:{data.mobileNumber},
-                Speciality:{data.speciality},
-
-            </li>
+        {coachData.map((data) => (
+          <li>
+            Coach Id:{data.id}
+            <br></br>
+             Date of Birth  :{data.dateOfBirth}
+             <br></br>
+             Mobile No: {data.mobileNumber}
+             <br></br>
+              Speciality:{data.speciality},
+          </li>
         ))}
       </ul>
-    </>
+      </div>
+    </div>
   );
 };
 
