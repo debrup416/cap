@@ -1,0 +1,15 @@
+*{
+    margin: 0px;
+}
+.header{
+    background: hsl(0, 0%, 9%);
+    padding: 0.2rem 1rem;
+    color:white;
+    display:flex;
+    font-size: 1.5rem;
+    width: 100%;
+    justify-content:space-between;
+    position: fixed;
+    height: 8%;
+    margin-bottom: 1000px;
+}
